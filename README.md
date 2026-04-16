@@ -16,7 +16,7 @@ A machine learning prototype to detect fake news and disinformation during disas
 
 🛠️ Technologies Used
 
-Language: Python 3.x
+Language: Python 
 
 Libraries: scikit-learn, json, string
 
