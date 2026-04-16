@@ -3,70 +3,66 @@ import string
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.linear_model import LogisticRegression
 
-class BilgiDogrulamaModeli:
+class MisinformationDetector:
     def __init__(self):
-        # modelin kalıcı ayarları
-        self.gereksiz_kelimeler = ["bu", "ve", "ile", "için", "bir", "çok", "lütfen", "herkes"]
+        # Model's core settings and stop-words definition
+        self.stop_words = ["bu", "ve", "ile", "için", "bir", "çok", "lütfen", "herkes"]
         self.vectorizer = CountVectorizer()
-        self.ai_modeli = LogisticRegression()
-        self.egitildi_mi = False
+        self.model = LogisticRegression()
+        self.is_trained = False
 
-    def metin_temizle(self, metin):
-        metin = metin.lower()
-        metin = "".join([karakter for karakter in metin if not karakter.isdigit()])
-        metin = "".join([karakter for karakter in metin if karakter not in string.punctuation])
+    def clean_text(self, text):
+        text = text.lower()
+        text = "".join([char for char in text if not char.isdigit()])
+        text = "".join([char for char in text if char not in string.punctuation])
         
-        kelimeler = metin.split()
-        anlamli_kelimeler = [kelime for kelime in kelimeler if kelime not in self.gereksiz_kelimeler]
+        words = text.split()
+        meaningful_words = [word for word in words if word not in self.stop_words]
         
-        # listeyi birleştir
-        return " ".join(anlamli_kelimeler) 
+        return " ".join(meaningful_words) 
 
-    def json_verisi_yukle(self, dosya_yolu):
-        # JSON dosyasını okuyan fonksiyon
-        with open(dosya_yolu, "r", encoding="utf-8") as dosya:
-            return json.load(dosya)
+    def load_json_data(self, file_path):
+        with open(file_path, "r", encoding="utf-8") as file:
+            return json.load(file)
 
-    def modeli_egit(self, dosya_yolu):
-        # veriyi yükle ve listelere ayır
-        veri_seti = self.json_verisi_yukle(dosya_yolu)
+    def train_model(self, file_path):
+        # Load data and split into lists
+        dataset = self.load_json_data(file_path)
         
-        temiz_veriler = []
-        etiketler = []
+        clean_data = []
+        labels = []
 
-        for veri in veri_seti:
-            temiz_cumle = self.metin_temizle(veri["metin"])
-            temiz_veriler.append(temiz_cumle)
-            etiketler.append(veri["etiket"])
+        for data in dataset:
+            clean_sentence = self.clean_text(data["metin"])
+            clean_data.append(clean_sentence)
+            labels.append(data["etiket"])
 
-        # Kelimeleri sayılara çevir ve modeli eğit
-        vektorler = self.vectorizer.fit_transform(temiz_veriler)
-        self.ai_modeli.fit(vektorler, etiketler)
-        self.egitildi_mi = True
-        print("Yapay zeka modeli JSON verisiyle başarıyla eğitildi!")
+        # train the model
+        vectors = self.vectorizer.fit_transform(clean_data)
+        self.model.fit(vectors, labels)
+        self.is_trained = True
+        print("✅ AI model successfully trained with JSON dataset!")
 
-    def tahmin_et(self, mesaj):
-        # yeni mesajı test et
-        if not self.egitildi_mi:
-            return "Hata: Model henüz eğitilmedi!"
+    def predict(self, message):
+        if not self.is_trained:
+            return "Error: The model is not trained yet!"
         
-        temiz_mesaj = self.metin_temizle(mesaj)
-        yeni_vektor = self.vectorizer.transform([temiz_mesaj])
-        tahmin = self.ai_modeli.predict(yeni_vektor)[0]
+        clean_message = self.clean_text(message)
+        new_vector = self.vectorizer.transform([clean_message])
+        prediction = self.model.predict(new_vector)[0]
         
-        if tahmin == 1:
-            return "BİLGİ KİRLİLİĞİ (SAHTE) olabilir."
+        if prediction == 1:
+            return "⚠️ POTENTIAL DISINFORMATION (FAKE NEWS)."
         else:
-            return "GERÇEK (DOĞRULANMIŞ) görünüyor."
+            return "✅ APPEARS TO BE VERIFIED (OFFICIAL)."
 
 if __name__ == "__main__":
-    # model nesnesi oluştur
-    afet_modeli = BilgiDogrulamaModeli()
+    disaster_model = MisinformationDetector()
     
-    afet_modeli.modeli_egit("veri_seti.json")
+    disaster_model.train_model("veri_seti.json")
     
-    test_mesaji = "AFAD duyurusu: ŞOK İDDİA baraj patladı acil yayalım!!!"
-    print(f"\nTest edilen mesaj: {test_mesaji}")
+    test_message = "AFAD duyurusu: ŞOK İDDİA baraj patladı acil yayalım!!!"
+    print(f"\nTested message: {test_message}")
     
-    sonuc = afet_modeli.tahmin_et(test_mesaji)
-    print(f"YAPAY ZEKA KARARI: {sonuc}")
+    result = disaster_model.predict(test_message)
+    print(f"AI DECISION: {result}")
