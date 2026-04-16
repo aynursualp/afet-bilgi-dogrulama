@@ -1,22 +1,22 @@
 [
   {
-    "metin": "AFAD duyurusu: Bölgedeki arama kurtarma çalışmaları devam etmektedir.",
-    "etiket": 0
+    "text": "AFAD duyurusu: Bölgedeki arama kurtarma çalışmaları devam etmektedir.",
+    "label": 0
   },
   {
-    "metin": "ACİL YAYALIM!!! Bu gece 8.5 büyüklüğünde deprem bekleniyor, herkes sokağa çıksın!!!",
-    "etiket": 1
+    "text": "ACİL YAYALIM!!! Bu gece 8.5 büyüklüğünde deprem bekleniyor, herkes sokağa çıksın!!!",
+    "label": 1
   },
   {
-    "metin": "Kızılay çadırları merkez parka kurulmaya başlandı, ihtiyaç sahipleri gidebilir.",
-    "etiket": 0
+    "text": "Kızılay çadırları merkez parka kurulmaya başlandı, ihtiyaç sahipleri gidebilir.",
+    "label": 0
   },
   {
-    "metin": "ŞOK İDDİA! Baraj patladı sular şehre iniyor, kaçın!!!!!",
-    "etiket": 1
+    "text": "ŞOK İDDİA! Baraj patladı sular şehre iniyor, kaçın!!!!!",
+    "label": 1
   },
   {
-    "metin": "Valilik açıklaması: Lütfen resmi makamlar dışındaki asılsız ihbarlara itibar etmeyiniz.",
-    "etiket": 0
+    "text": "Valilik açıklaması: Lütfen resmi makamlar dışındaki asılsız ihbarlara itibar etmeyiniz.",
+    "label": 0
   }
 ]
