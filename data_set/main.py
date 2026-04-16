@@ -33,15 +33,15 @@ class MisinformationDetector:
         labels = []
 
         for data in dataset:
-            clean_sentence = self.clean_text(data["metin"])
+            clean_sentence = self.clean_text(data["text"])
             clean_data.append(clean_sentence)
-            labels.append(data["etiket"])
+            labels.append(data["label"])
 
         # train the model
         vectors = self.vectorizer.fit_transform(clean_data)
         self.model.fit(vectors, labels)
         self.is_trained = True
-        print("✅ AI model successfully trained with JSON dataset!")
+        print("AI model successfully trained with JSON dataset!")
 
     def predict(self, message):
         if not self.is_trained:
@@ -52,9 +52,9 @@ class MisinformationDetector:
         prediction = self.model.predict(new_vector)[0]
         
         if prediction == 1:
-            return "⚠️ POTENTIAL DISINFORMATION (FAKE NEWS)."
+            return "POTENTIAL DISINFORMATION (FAKE NEWS)."
         else:
-            return "✅ APPEARS TO BE VERIFIED (OFFICIAL)."
+            return "APPEARS TO BE VERIFIED (OFFICIAL)."
 
 if __name__ == "__main__":
     disaster_model = MisinformationDetector()
