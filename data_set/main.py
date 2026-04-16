@@ -59,7 +59,7 @@ class MisinformationDetector:
 if __name__ == "__main__":
     disaster_model = MisinformationDetector()
     
-    disaster_model.train_model("veri_seti.json")
+    disaster_model.train_model("data_set.json")
     
     test_message = "AFAD duyurusu: ŞOK İDDİA baraj patladı acil yayalım!!!"
     print(f"\nTested message: {test_message}")
