@@ -26,23 +26,25 @@ Data Format: JSON
 
 To run this project on your local machine, follow these simple steps:
 
-1. Clone the repository:
-
-git clone [https://github.com/aynursualp/afet-bilgi-dogrulama.git](https://github.com/aynursualp/afet-bilgi-dogrulama.git)
-
+1 Clone the repository:
+```bash
+git clone https://github.com/aynursualp/afet-bilgi-dogrulama.git
+```
 
 2. Navigate to the project directory:
-
+```bash
 cd afet-bilgi-dogrulama
-
+```
 
 3. Install the required libraries:
-
+```bash
 pip install -r requirements.txt
-
+```
 
 💻 Usage
 
 Simply run the main Python file to train the model and test it with a sample message:
 
+```bash
 python main.py
+```
